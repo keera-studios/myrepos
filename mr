@@ -2180,6 +2180,16 @@ fossil_record = fossil commit "$@"
 vcsh_record = vcsh run "$MR_REPO" git commit -a "$@"
 veracity_record = vv commit "$@"
 
+hg_syncstatus =
+ if ($quiet || $minimal); then
+   hg --quiet incoming || if [ "$?" -eq "1" ] ; then exit 0; else exit "$?"; fi &&
+   hg --quiet outgoing || if [ "$?" -eq "1" ] ; then exit 0; else exit "$?"; fi ;
+ else
+   hg incoming || if [ "$?" -eq "1" ] ; then exit 0; else exit "$?"; fi &&
+   hg outgoing || if [ "$?" -eq "1" ] ; then exit 0; else exit "$?"; fi ;
+ fi
+git_syncstatus = :
+
 svn_push = :
 git_push = git push "$@"
 bzr_push = bzr push "$@"
