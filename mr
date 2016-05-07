@@ -2142,7 +2142,11 @@ svn_status = svn status "$@"
 git_status = git status -s "$@" || true; git --no-pager log --branches --not --remotes --simplify-by-decoration --decorate --oneline || true; git --no-pager stash list
 bzr_status = bzr status --short "$@"; bzr missing
 cvs_status = cvs -q status | grep -E '^(File:.*Status:|\?)' | grep -v 'Status: Up-to-date'
-hg_status  = hg status "$@"; hg summary --quiet | grep -v 'parent: 0:'
+hg_status  = if ($quiet || $minimal); then
+               hg status "$@";
+             else
+               hg status "$@"; hg summary --quiet | grep -v 'parent: 0:'
+             fi
 darcs_status = darcs whatsnew -ls "$@" || true
 fossil_status = fossil changes "$@"
 vcsh_status = vcsh status "$MR_REPO" "$@" || true
