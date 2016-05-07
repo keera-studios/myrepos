@@ -2188,7 +2188,10 @@ hg_syncstatus =
    hg incoming || if [ "$?" -eq "1" ] ; then exit 0; else exit "$?"; fi &&
    hg outgoing || if [ "$?" -eq "1" ] ; then exit 0; else exit "$?"; fi ;
  fi
-git_syncstatus = :
+git_syncstatus =
+ git fetch && \
+ git log --oneline $(git remote).. && \
+ git log --oneline ..$(git remote)
 
 svn_push = :
 git_push = git push "$@"
