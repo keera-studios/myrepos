@@ -2163,6 +2163,16 @@ fossil_status = fossil changes "$@"
 vcsh_status = vcsh status "$MR_REPO" "$@" || true
 veracity_status = vv status "$@"
 
+
+svn_ignored     = svn-clean --print "$@"
+git_ignored     = git status --porcelain --null "$@" | sed -e 's/?? //g'
+git_svn_ignored = git status --porcelain --null "$@" | sed -e 's/?? //g'
+bzr_ignored     = bzr clean-tree --verbose --dry-run --ignored --detritus "$@"
+cvs_ignored     = cvs-clean --dry-run "$@"
+hg_ignored      = hg status --no-status --ignored --print0 "$@";
+fossil_ignored  = fossil clean --force --dotfiles --emptydirs "$@"
+vcsh_ignored    = vcsh run "$MR_REPO" git status --porcelain --null "$@" | sed -e 's/?? //g'
+
 svn_commit = svn commit "$@"
 git_commit = git commit -a "$@" && git push --all
 bzr_commit =
